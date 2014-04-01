@@ -6,14 +6,15 @@ var http = require("http");
 var path = require("path");
 var log4js = require("log4js");
 
+var L = mod("logger/index");
 var U = mod("utilities/index");
 var C = mod("config");
 var routes = mod("routes/index");
 
 process.on("uncaughtException", function(error) {
-	if(U && U.sync && U.sync.logger && U.sync.logger.server && U.sync.logger.server.error) {
-		U.sync.logger.server.error("Uncaught exception, exiting. Error details:");
-		U.sync.logger.server.error(error.stack);
+	if(L && L.server && L.server.error) {
+		L.server.error("Uncaught exception, exiting. Error details:");
+		L.server.error(error.stack);
 	}
 	else {
 		console.error("BACKUP LOG TO CONSOLE IN CASE OF TOTAL SERVER/LOGGER FAILURE:\n" + error.stack);
@@ -26,7 +27,7 @@ if(environment_mode === "development" || environment_mode === "staging" || envir
 	Error.stackTraceLimit = Infinity;
 	var http_server = stand_up_http_server_object(environment_mode);
 	http_server.listen(C.http_port, function() {
-		U.sync.logger.server.info("Express HTTP server listening on port %d", C.http_port);
+		L.server.info("Express HTTP server listening on port %d", C.http_port);
 	});
 }
 else {
@@ -47,7 +48,7 @@ function configure_express_object(app) {
 		throw new Error("Server command line environment ('" + app.get("env") + 
 				"') does not match installed mode ('" + C.mode_name + "')");
 	}
-	U.sync.logger.configure();
+	L.configure();
 	mongoose.connect("mongodb://" + C.database_host + ":" + C.database_port + " /" + C.database);
 
 	configure_express_middleware(app);
@@ -57,7 +58,7 @@ function configure_express_object(app) {
 function configure_express_middleware(app) {
 	app.use(express.favicon(path.join(C.client_root, "favicon.ico")));
 	app.use(express.compress());
-	app.use(log4js.connectLogger(U.sync.logger.express, { level: "auto", format: C.express_logger_format }));
+	app.use(log4js.connectLogger(L.express, { level: "auto", format: C.express_logger_format }));
 	// TODO express.limit (connect.limit) is being removed in connect 3.0.0 - consider using https://github.com/stream-utils/raw-body
 	app.use(express.limit("16kb"));
 	app.use(express.bodyParser());
