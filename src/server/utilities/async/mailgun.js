@@ -1,6 +1,6 @@
 require("../../mod");
 var request = require("request");
-var U = mod("utilities/index");
+var L = mod("logger/index");
 var C = mod("config");
 var M = mod("models/index");
 
@@ -12,14 +12,14 @@ module.exports = {
 			var recent_email_query = { enqueued: {$gt: check_date}, error_type: message.error_type };
 			M.Email.model.find(recent_email_query, {_id:1}, {}, function(err, res) {
 				if(err) {
-					U.sync.logger.server.error("U.async.mailgun.send - error with find: " + 
+					L.server.error("U.async.mailgun.send - error with find: " + 
 						util.inspect(recent_email_query));
 				}
 				else if(res.length === 0) {
 					save_and_send_email(message);
 				}
 				else {
-					U.sync.logger.server.info("U.async.mailgun.send - repeat email (NOT SENT) \"" + 
+					L.server.info("U.async.mailgun.send - repeat email (NOT SENT): \"" + 
 						message.subject + "\" sent to " + message.to);
 				}
 			});
@@ -36,7 +36,7 @@ function save_and_send_email(message) {
 	var email_record = new M.Email.model(message);
 	email_record.save(function(error) {
 		if(!error) {
-			var requestParameters = {
+			var request_params = {
 				form: message,
 				auth: {
 					user: C.email.post_auth_user,
@@ -45,12 +45,12 @@ function save_and_send_email(message) {
 				}
 			};
 			
-			request.post(C.email.post_url, requestParameters);
-			U.sync.logger.server.info("U.asyncsend - email \"" + message.subject + 
+			request.post(C.email.post_url, request_params);
+			L.server.info("U.async.send - email: \"" + message.subject + 
 				"\" sent to " + message.to);
 		}
 		else {
-			U.sync.logger.server.error(error);
+			L.server.error(error);
 		}
 	});
 }

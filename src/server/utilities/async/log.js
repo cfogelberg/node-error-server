@@ -1,5 +1,5 @@
 require("../../mod");
-var U = mod("utilities/index");
+var L = mod("logger/index");
 var M = mod("models/index");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 		});
 		log.save(function(error) {
 			if(error) {
-				U.sync.logger.server.error(error);
+				L.server.error(error);
 			}
 		});
 	}
