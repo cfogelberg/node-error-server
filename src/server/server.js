@@ -65,7 +65,7 @@ function configure_express_middleware(app) {
 	app.use(express.methodOverride());
 	app.use(app.router); // api error routes (they look like they're static)
 	app.use(express.static(C.client_root)); // actual static content
-	app.use(function(req, res, next) { // fall back to always sending error.html
+	app.use(function(req, res, next) { // fall back to always sending error.html (but don't save or email anything)
 		res.sendfile(path.join(C.client_root, "error.html"));
 	});
 	if(C.mode_name === "development" || C.mode_name === "staging") {
