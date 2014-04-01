@@ -14,7 +14,7 @@ module.exports = {
 		from: "\"Node Error Server\" <node-error-server@yourdomain.com>",
 		to: "",
 		bcc: "",
-		gap: 60 * 1000, // Don't send another email within this time frame
+		gap: undefined,
 		post_url: "https://api.mailgun.net/v2/api.lettingvetting.com/messages",
 		post_auth_user: "username",
 		post_auth_pass: "password"

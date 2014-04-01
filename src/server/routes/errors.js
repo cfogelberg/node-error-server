@@ -38,12 +38,15 @@ module.exports = {
 
 
 
-function build_email_object(options) {
-	var datetime = moment(new Date()).format("HH:MM:ss DD/MM/YYYY");
+function build_email_object(options) { 
 	return {
+		enqueued: new Date(),
+		error_type: options.error_type,
 		to: C.email.to,
 		from: C.email.from,
+		bcc: C.email.bcc,
 		subject: "Error server URL accessed: " + options.error_type,
-		text: "Error server URL (" + options.error_type + ") accessed at " + datetime
+		text: "Error server URL (" + options.error_type + ") accessed at " + 
+			moment(new Date()).format("HH:MM:ss DD/MM/YYYY")
 	};
 };
