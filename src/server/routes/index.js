@@ -1,5 +1,5 @@
 require("../mod");
 
 module.exports = {
-		error: mod("routes/errors.js")
+		error: mod("routes/error.js")
 };

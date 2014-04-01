@@ -12,8 +12,8 @@ module.exports = {
 	express_logger_format: ":remote-addr - - [:date] \":method :url HTTP/:http-version\" :status \":referrer\" \":user-agent\"",
 	email: {
 		from: "\"Node Error Server\" <node-error-server@yourdomain.com>",
-		to: "",
-		bcc: "",
+		to: "engineering@yourdomain.com",
+		bcc: "needs-to-know@yourdomain.com",
 		gap: undefined,
 		post_url: "https://api.mailgun.net/v2/api.lettingvetting.com/messages",
 		post_auth_user: "username",
