@@ -1,0 +1,14 @@
+{
+    "name" : "node-error-server",
+    "version" : "0.1.0",
+    "author" : "Christo Fogelberg",
+    "private" : true,
+    "devDependencies" : {
+        "grunt" :                   "0.4.x",
+        "matchdep": 				"0.3.x",
+	    "grunt-contrib-clean": 		"0.5.x",
+	    "grunt-contrib-copy":		"0.5.x",
+	    "grunt-mkdir":				"0.1.x"
+    },
+    "engine": "node >= 0.10"
+}
