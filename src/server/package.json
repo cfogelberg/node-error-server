@@ -1,13 +1,17 @@
 {
-  "name": "node-error-server",
-  "version": "0.1.0",
-  "description": "A simple Node.js server for displaying rich error pages when the main server is down",
-  "dependencies": {
-    "express": "3.1.x",
-    "mongoose": "3.5.x",
-    "path": "0.4.x",
-    "log4js": "0.6.x",
-    "request": "2.27.x",
-    "moment": "2.4.x"
-  }
+	"name": "simple-error-server",
+	"version": "0.1.0",
+	"description": "A simple Node.js server for displaying rich error pages",
+    "author" : "Christo Fogelberg <cfogelberg@gmail.com>",
+    "private" : false,
+	"dependencies": {
+	    "express": "3.1.x",
+	    "mongoose": "3.5.x",
+	    "path": "0.4.x",
+	    "log4js": "0.6.x",
+	    "request": "2.27.x",
+	    "moment": "2.4.x"
+	},
+	"license": "MIT",
+    "engines": { "node" : ">= 0.10" }
 }
