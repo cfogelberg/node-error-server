@@ -116,13 +116,33 @@ module.exports = function(grunt){
     				src: [ "build/**/*.sh" ]
     			}
     		}
+    	},
+    	
+    	"git-describe": {
+			"options": {
+				"failOnError": true
+			},
+			"main": {
+			}
     	}
     });
+    
+    grunt.registerTask("git-version", function() {
+    	grunt.event.once("git-describe", function(rev) {
+    		grunt.file.write("build/version.json", JSON.stringify({
+    		    version: grunt.config("pkg.version"),
+    		    revision: rev.object + rev.dirty + (rev.tag ? "---" + rev.tag :""),
+    		    date: grunt.template.today()
+		    }));
+    	});
+    	grunt.task.run("git-describe");
+    });
+    grunt.registerTask("version", ["git-version"]);
 
     grunt.registerTask("build:development", 
-		["clean:total", "copy:build", "copy:config_development", "mkdir:logs", "usebanner", "clean:tidy"]);
+		["clean:total", "copy:build", "copy:config_development", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:staging", 
-		["clean:total", "copy:build", "copy:config_staging", "mkdir:logs", "usebanner", "clean:tidy"]);
+		["clean:total", "copy:build", "copy:config_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:production", 
-		["clean:total", "copy:build", "copy:config_production", "mkdir:logs", "usebanner", "clean:tidy"]);
+		["clean:total", "copy:build", "copy:config_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
 };
