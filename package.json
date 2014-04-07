@@ -7,11 +7,13 @@
     "devDependencies" : {
         "grunt" :                   "0.4.x",
         "matchdep": 				"0.3.x",
+        "underscore":				"1.6.x",
 	    "grunt-contrib-clean": 		"0.5.x",
 	    "grunt-contrib-copy":		"0.5.x",
 	    "grunt-mkdir":				"0.1.x",
 	    "grunt-banner":				"0.2.x",
-	    "grunt-git-describe":		"2.3.x"
+	    "grunt-git-describe":		"2.3.x",
+	    "grunt-bump":				"0.0.x"
     },
     "engines": { "node" : ">= 0.10" }
 }

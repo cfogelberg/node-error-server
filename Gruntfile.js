@@ -1,35 +1,28 @@
 module.exports = function(grunt){
+	var _ = require("underscore");
+	
+	var build_tasks = _.filter(grunt.cli.tasks, function(arg) {
+		return arg.indexOf("build:") !== -1;
+	});
+	var build_modes = _.map(build_tasks, function(task) {
+		return task.substring(task.indexOf(":") + 1);
+	});
+	if(build_modes.length > 1) {
+		grunt.log.error("Multiple build tasks specified: " + JSON.stringify(build_tasks));
+	}
+	else {
+		var build_mode = build_modes[0];
+	}
+	
 	require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
-    
-	var app_info = grunt.file.readJSON("app_info.json") || {};
-	var banner = {
-		js: "/*\n" + 
-		" * <%= app_info.name %> - version <%= app_info.version %> - <%= grunt.template.today('yyyy-mm-dd') %>\n" +
-		" * <%= app_info.description %>\n" +
-		" * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" + 
-		" */\n",
-		
-		css: "/*\n" + 
-		" * <%= app_info.name %> - version <%= app_info.version %> - <%= grunt.template.today('yyyy-mm-dd') %>\n" +
-		" * <%= app_info.description %>\n" +
-		" * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" +
-		" */\n",
-		
-		html: "<!--\n" + 
-		" <%= app_info.name %> - version <%= app_info.version %> - <%= grunt.template.today('yyyy-mm-dd') %>\n" +
-		" <%= app_info.description %>\n" +
-		" (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" + 
-		"-->\n",
-		
-		sh: "#!/bin/bash\n" +
-		"# <%= app_info.name %> - version <%= app_info.version %> - <%= grunt.template.today('yyyy-mm-dd') %>\n" +
-		"# <%= app_info.description %>\n" +
-		"# (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n"
-	};
 	
     grunt.initConfig({
+    	// Configuration files and variables
         pkg: grunt.file.readJSON("package.json"),
-	    
+    	app_info: grunt.file.readJSON("app_info.json"),
+    	build_mode: build_mode,
+    	
+    	// Plugin tasks
 	    clean: {
 			total: {
 			    src: [ "build" ]
@@ -78,12 +71,15 @@ module.exports = function(grunt){
     		}
     	},
     	
-    	app_info: app_info,
-    	banner: banner,
     	usebanner: {
     		js: {
     			options: {
-    				banner: "<%= banner.js %>"
+    				banner: "/*\n" + 
+		    	    		" * <%= app_info.name %> - version <%= app_info.version %>:<%= build_mode %> - " +
+		        				"<%= grunt.template.today('yyyy-mm-dd') %>\n" +
+			        		" * <%= app_info.description %>\n" +
+			        		" * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" + 
+			        		" */\n"
     			},
     			files: {
     				src: [ "build/**/*.js" ]
@@ -92,7 +88,12 @@ module.exports = function(grunt){
     		
     		css: {
     			options: {
-    				banner: "<%= banner.css %>"
+    				banner: "/*\n" + 
+		    	    		" * <%= app_info.name %> - version <%= app_info.version %>:<%= build_mode %> - " +
+			        			"<%= grunt.template.today('yyyy-mm-dd') %>\n" +
+			        		" * <%= app_info.description %>\n" +
+			        		" * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" +
+			        		" */\n"
     			},
     			files: {
     				src: [ "build/**/*.css" ]
@@ -101,7 +102,12 @@ module.exports = function(grunt){
     		
     		html: {
     			options: {
-    				banner: "<%= banner.html %>"
+    				banner: "<!--\n" + 
+		    	    		" <%= app_info.name %> - version <%= app_info.version %>:<%= build_mode %> - " +
+			        			"<%= grunt.template.today('yyyy-mm-dd') %>\n" +
+			        		" <%= app_info.description %>\n" +
+			        		" (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" + 
+			        		"-->\n"
     			},
     			files: {
     				src: [ "build/**/*.html" ]
@@ -110,7 +116,11 @@ module.exports = function(grunt){
     		
     		sh: {
     			options: {
-    				banner: "<%= banner.sh %>"
+    				banner: "#!/bin/bash\n" +
+				    		"# <%= app_info.name %> - version <%= app_info.version %>:<%= build_mode %> - " +
+				    			"<%= grunt.template.today('yyyy-mm-dd') %>\n" +
+				    		"# <%= app_info.description %>\n" +
+				    		"# (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n"
     			},
     			files: {
     				src: [ "build/**/*.sh" ]
@@ -124,25 +134,36 @@ module.exports = function(grunt){
 			},
 			"main": {
 			}
+    	},
+    	
+    	bump: {
+    		options: {
+    			files: [ "package.json", "app_info.json", "src/client/bower.json", "src/server/package.json" ],
+    			updateConfigs: [ "pkg", "app_info" ],
+    			commit: true,
+    			commitMessage: "Release v%VERSION%:" + (build_mode ? build_mode : "bump-only"),
+    			commitFiles: [ "package.json", "app_info.json", "src/client/bower.json", "src/server/package.json" ],
+    			createTag: false,
+    			push: false
+    		}
     	}
     });
     
-    grunt.registerTask("git-version", function() {
+    grunt.registerTask("version", function() {
     	grunt.event.once("git-describe", function(rev) {
     		grunt.file.write("build/version.json", JSON.stringify({
-    		    version: grunt.config("pkg.version"),
-    		    revision: rev.object + rev.dirty + (rev.tag ? "---" + rev.tag :""),
+    		    version: grunt.config("pkg.version") + (build_mode ? ":" + build_mode : ""),
+    		    revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
     		    date: grunt.template.today()
 		    }));
     	});
     	grunt.task.run("git-describe");
     });
-    grunt.registerTask("version", ["git-version"]);
 
     grunt.registerTask("build:development", 
 		["clean:total", "copy:build", "copy:config_development", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:staging", 
-		["clean:total", "copy:build", "copy:config_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+		["clean:total", "bump:build", "copy:build", "copy:config_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:production", 
-		["clean:total", "copy:build", "copy:config_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+		["clean:total", "bump:build", "copy:build", "copy:config_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
 };

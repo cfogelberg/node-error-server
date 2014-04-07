@@ -2,6 +2,20 @@
 
 A simple Node.js server for displaying rich error pages when the main server is down.
 
+## Building and deploying
+
+Build and deploy using Grunt, the application is copied to the `build` directory for distribution after building
+
+Command                 | Notes
+------------------------|--------------------------------------------------------------------------------
+grunt clean:total       | Removes the built application files (if any)
+grunt build:development | Builds application in development mode
+grunt build:staging     | Bumps build number and commits updated files then builds application
+grunt build:production  | Bumps build number and commits updated files then builds application
+grunt bump:patch        | Increments patch version and commits updated files, does not build application
+grunt bump:minor        | Increments minor version and commits updated files, does not build application
+grunt bump:major        | Increments major version and commits updated files, does not build application
+
 ## License
 
 Copyright (C) 2014 Christo Fogelberg
