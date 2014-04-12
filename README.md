@@ -1,4 +1,4 @@
-# NODE ERROR SERVER
+# SIMPLE ERROR SERVER
 
 A simple Node.js server for displaying rich error pages when the main server is down.
 
@@ -15,6 +15,11 @@ grunt build:production  | Bumps build number and commits updated files then buil
 grunt bump:patch        | Increments patch version and commits updated files, does not build application
 grunt bump:minor        | Increments minor version and commits updated files, does not build application
 grunt bump:major        | Increments major version and commits updated files, does not build application
+
+## Version control
+
+Simple Error Server uses a simplified version of the gitflow model - see 
+http://nvie.com/posts/a-successful-git-branching-model/ for details
 
 ## License
 

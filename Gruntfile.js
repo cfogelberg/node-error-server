@@ -33,33 +33,38 @@ module.exports = function(grunt){
 			}
     	},
         
+    	// TODO: Fix grunt-contrib-copy/tasks/copy.js - mode not set and defaults to false, default it to true
 	    copy: {
 	        build: {
 		        cwd: "src",
 		        src: [ "**" ],
 		        dest: "build",
-		        expand: true
+		        expand: true,
+		        mode: true
 	        },
 	    
     		config_development: {
     			nonull: true,
     			cwd: "src",
 				src: "src/server/config.development.js",
-				dest: "build/server/config.js"
+				dest: "build/server/config.js",
+				mode: true
     		},
 	    
     		config_staging: {
     			nonull: true,
     			cwd: "src",
 				src: "src/server/config.staging.js",
-				dest: "build/server/config.js"
+				dest: "build/server/config.js",
+				mode: true
     		},
 	    
     		config_production: {
     			nonull: true,
     			cwd: "src",
 				src: "src/server/config.production.js",
-				dest: "build/server/config.js"
+				dest: "build/server/config.js",
+				mode: true
     		}
     	},
     	
