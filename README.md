@@ -18,17 +18,17 @@ grunt bump:major        | Increments major version and commits updated files, do
 
 ## Running
 
-There are two ways of running SES:
+There are two ways of running SES. In a terminal:
 
-- In a terminal
--- Execute the shell script `src/server/nodemon-server.sh`
+1. Execute the shell script `src/server/nodemon-server.sh`
 
-- With upstart and monit (this is more robust than using nodemon and the terminal)
--- Update the simple-error-server.*.override files as needed
--- Copy `build/*` to `/var/node/simple-error-server`, chown to match the user in simple-error-server.conf
--- Copy `simple-error-server.conf` to `/etc/init`
--- sudo initctl reload-configuration
--- sudo start simple-error-server
+With upstart and monit (this is more robust than using nodemon and the terminal):
+
+1. Update the simple-error-server.*.override files as needed
+2. Copy `build/*` to `/var/node/simple-error-server`, chown to match the user in simple-error-server.conf
+3. Copy `simple-error-server.conf` to `/etc/init`
+4. sudo initctl reload-configuration
+5. sudo start simple-error-server
 
 ## Version control
 
