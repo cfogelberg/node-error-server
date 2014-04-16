@@ -12,8 +12,10 @@ usage() {
 if [ $# -eq 1 ]
 then
 	# Set up variables
+	MODE=$1
 	NODEMON_BIN="$(which nodemon 2> /dev/null)"
-	SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+	SERVER_DIR=$SCRIPT_DIR/../server
 
 	# Check path
 	if [ -z "$NODEMON_BIN" ]
@@ -24,9 +26,9 @@ then
 	fi
 
 	# Start server
-	cd $SCRIPTDIR
+	cd $SERVER_DIR
 	echo Starting server in $(pwd)...
-	nodemon -V --delay 3 $SCRIPTDIR/server.js $1 
+	nodemon --delay 3 $SERVER_DIR/server.js $MODE 
 else
 	usage
 fi
