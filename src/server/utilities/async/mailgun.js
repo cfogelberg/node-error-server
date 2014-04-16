@@ -7,7 +7,7 @@ var M = mod("models/index");
 module.exports = {
 	// message: { to, from, subject, text }
 	send: function(message) {
-		if(C.email.gap) {
+		if(C.email.send_emails && C.email.gap) {
 			var check_date = new Date(new Date() - C.email.gap);
 			var recent_email_query = { enqueued: {$gt: check_date}, error_type: message.error_type };
 			M.Email.model.find(recent_email_query, {_id:1}, {}, function(err, res) {
@@ -24,7 +24,7 @@ module.exports = {
 				}
 			});
 		}
-		else {
+		else if(C.email.send_emails) {
 			save_and_send_email(message);
 		}
 	}
