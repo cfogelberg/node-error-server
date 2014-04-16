@@ -33,6 +33,16 @@ module.exports = {
 		}));
 		res.statusCode = 500;
 		res.sendfile(path.join(C.client_root, "error.html"));
+	},
+	
+	unknown: function(req, res, next) {
+		var error_type = "unknown";
+		U.async.emit("log:save", error_type, req);
+		U.async.emit("mailgun:send", build_email_object({
+			error_type: error_type,
+		}));
+		res.statusCode = 500;
+		res.sendfile(path.join(C.client_root, "unknown.html"));
 	}
 };
 
