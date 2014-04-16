@@ -29,7 +29,7 @@ module.exports = function(grunt){
 			},
 			
 			tidy: {
-				src: [ "build/server/config.*.js" ]	
+				src: [ "build/server/config.*.js", "build/scripts/simple-error-server.*.override" ]	
 			}
     	},
         
@@ -64,6 +64,30 @@ module.exports = function(grunt){
     			cwd: "src",
 				src: "src/server/config.production.js",
 				dest: "build/server/config.js",
+				mode: true
+    		},
+    		
+    		override_development: {
+    			nonull: true,
+    			cwd: "src",
+				src: "src/scripts/simple-error-server.development.override",
+				dest: "build/scripts/simple-error-server.override",
+				mode: true
+    		},
+    		
+    		override_staging: {
+    			nonull: true,
+    			cwd: "src",
+				src: "src/scripts/simple-error-server.staging.override",
+				dest: "build/scripts/simple-error-server.override",
+				mode: true
+    		},
+    		
+    		override_production: {
+    			nonull: true,
+    			cwd: "src",
+				src: "src/scripts/simple-error-server.production.override",
+				dest: "build/scripts/simple-error-server.override",
 				mode: true
     		}
     	},
@@ -166,9 +190,9 @@ module.exports = function(grunt){
     });
 
     grunt.registerTask("build:development", 
-		["clean:total", "copy:build", "copy:config_development", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+		["clean:total", "copy:build", "copy:config_development", "copy:override_development", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:staging", 
-		["clean:total", "bump:build", "copy:build", "copy:config_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+		["clean:total", "bump:build", "copy:build", "copy:config_staging", "copy:override_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:production", 
-		["clean:total", "bump:build", "copy:build", "copy:config_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+		["clean:total", "bump:build", "copy:build", "copy:config_production", "copy:override_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
 };
