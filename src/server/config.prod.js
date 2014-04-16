@@ -2,7 +2,7 @@
 var path = require("path");
 
 module.exports = {
-	mode_name: "production",
+	mode_name: "prod",
 	http_port: 17394,
 	database_host: "localhost",
 	database_port: "27017",

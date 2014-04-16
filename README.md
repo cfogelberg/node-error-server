@@ -4,17 +4,17 @@ A simple Node.js server for displaying rich error pages when the main server is 
 
 ## Building and deploying
 
-Build and deploy using Grunt, the application is copied to the `build` directory for distribution after building
+Build and deploy using Grunt, the application is copied to the `build` directory for deployment after building
 
-Command                 | Notes
-------------------------|--------------------------------------------------------------------------------
-grunt clean:total       | Removes the built application files (if any)
-grunt build:development | Builds application in development mode
-grunt build:staging     | Bumps build number and commits updated files then builds application
-grunt build:production  | Bumps build number and commits updated files then builds application
-grunt bump:patch        | Increments patch version and commits updated files, does not build application
-grunt bump:minor        | Increments minor version and commits updated files, does not build application
-grunt bump:major        | Increments major version and commits updated files, does not build application
+Command             | Notes
+--------------------|--------------------------------------------------------------------------------
+grunt clean:total   | Removes the built application files (if any)
+grunt build:dev     | Builds application in development mode
+grunt build:staging | Bumps build number and commits updated files then builds application
+grunt build:prod    | Bumps build number and commits updated files then builds application
+grunt bump:patch    | Increments patch version and commits updated files, does not build application
+grunt bump:minor    | Increments minor version and commits updated files, does not build application
+grunt bump:major    | Increments major version and commits updated files, does not build application
 
 ## Running
 
@@ -24,11 +24,11 @@ There are two ways of running SES. In a terminal:
 
 With upstart and monit (this is more robust than using nodemon and the terminal):
 
-1. Update the simple-error-server.*.override files as needed
-2. Copy `build/*` to `/var/node/simple-error-server`, chown to match the user in simple-error-server.conf
-3. Copy `simple-error-server.conf` to `/etc/init`
-4. sudo initctl reload-configuration
-5. sudo start simple-error-server
+1. Update the `simple-error-server.*.override` files as needed
+2. Copy `build/*` to `/var/node/simple-error-server`, `chown -R` to match the user in `simple-error-server.conf`
+3. Copy `scripts/simple-error-server.conf` and `scripts/simple-error-server.override` to `/etc/init`
+4. `sudo initctl reload-configuration`
+5. `sudo start simple-error-server``
 
 ## Version control
 

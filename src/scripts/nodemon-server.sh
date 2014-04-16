@@ -4,7 +4,7 @@ set -u
 
 usage() {
 	echo "Usage:"
-	echo "  lv.sh [server-mode, e.g. development, staging, production]"
+	echo "  lv.sh [server-mode, e.g. dev, staging, prod]"
 	echo "Also, ensure that nodemon is available in the path"
 	exit 1 
 }

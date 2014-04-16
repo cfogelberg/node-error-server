@@ -43,10 +43,10 @@ module.exports = function(grunt){
 		        mode: true
 	        },
 	    
-    		config_development: {
+    		config_dev: {
     			nonull: true,
     			cwd: "src",
-				src: "src/server/config.development.js",
+				src: "src/server/config.dev.js",
 				dest: "build/server/config.js",
 				mode: true
     		},
@@ -59,18 +59,18 @@ module.exports = function(grunt){
 				mode: true
     		},
 	    
-    		config_production: {
+    		config_prod: {
     			nonull: true,
     			cwd: "src",
-				src: "src/server/config.production.js",
+				src: "src/server/config.prod.js",
 				dest: "build/server/config.js",
 				mode: true
     		},
     		
-    		override_development: {
+    		override_dev: {
     			nonull: true,
     			cwd: "src",
-				src: "src/scripts/simple-error-server.development.override",
+				src: "src/scripts/simple-error-server.dev.override",
 				dest: "build/scripts/simple-error-server.override",
 				mode: true
     		},
@@ -83,10 +83,10 @@ module.exports = function(grunt){
 				mode: true
     		},
     		
-    		override_production: {
+    		override_prod: {
     			nonull: true,
     			cwd: "src",
-				src: "src/scripts/simple-error-server.production.override",
+				src: "src/scripts/simple-error-server.prod.override",
 				dest: "build/scripts/simple-error-server.override",
 				mode: true
     		}
@@ -189,10 +189,10 @@ module.exports = function(grunt){
     	grunt.task.run("git-describe");
     });
 
-    grunt.registerTask("build:development", 
-		["clean:total", "copy:build", "copy:config_development", "copy:override_development", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
-    grunt.registerTask("build:staging", 
-		["clean:total", "bump:build", "copy:build", "copy:config_staging", "copy:override_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
-    grunt.registerTask("build:production", 
-		["clean:total", "bump:build", "copy:build", "copy:config_production", "copy:override_production", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+    grunt.registerTask("build:dev", ["clean:total", "copy:build", "copy:config_dev", "copy:override_dev", 
+         "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+    grunt.registerTask("build:staging", ["clean:total", "bump:build", "copy:build", "copy:config_staging", 
+         "copy:override_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+    grunt.registerTask("build:prod", ["clean:total", "bump:build", "copy:build", "copy:config_prod", 
+          "copy:override_prod", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
 };

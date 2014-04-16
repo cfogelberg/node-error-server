@@ -23,7 +23,7 @@ process.on("uncaughtException", function(error) {
 });
 
 var environment_mode = process.argv[2];
-if(environment_mode === "development" || environment_mode === "staging" || environment_mode === "production") {
+if(environment_mode === "dev" || environment_mode === "staging" || environment_mode === "prod") {
 	Error.stackTraceLimit = Infinity;
 	var http_server = stand_up_http_server_object(environment_mode);
 	http_server.listen(C.http_port, function() {
@@ -32,7 +32,7 @@ if(environment_mode === "development" || environment_mode === "staging" || envir
 }
 else {
 	console.error("Usage error - unknown mode: " + process.argv[2]);
-	console.error("Usage: " + process.argv[0] + " " + process.argv[1] + " [development|staging|production]");
+	console.error("Usage: " + process.argv[0] + " " + process.argv[1] + " [dev|staging|prod]");
 }
 
 
@@ -66,7 +66,7 @@ function configure_express_middleware(app) {
 	app.use(app.router); // api error routes (they look like they're static)
 	app.use(express.static(C.client_root)); // actual static content
 	app.use(routes.error.unknown); // fall back to always sending error.html (but don't save or email anything)
-	if(C.mode_name === "development" || C.mode_name === "staging") {
+	if(C.mode_name === "dev" || C.mode_name === "staging") {
 		app.use(express.errorHandler());
 	}
 	else {
