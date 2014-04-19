@@ -1,1 +1,2 @@
 env RUN_MODE=staging
+env USER=node

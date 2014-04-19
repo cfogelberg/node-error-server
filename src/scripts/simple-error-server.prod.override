@@ -1,1 +1,2 @@
 env RUN_MODE=prod
+env USER=node

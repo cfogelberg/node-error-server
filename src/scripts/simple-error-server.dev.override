@@ -1,1 +1,2 @@
 env RUN_MODE=dev
+env USER=node
