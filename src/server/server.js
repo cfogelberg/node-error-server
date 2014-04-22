@@ -88,6 +88,7 @@ function configure_express_routes(app) {
 	app.get("/dberror.html", routes.error.database);
 	app.get("/servererror.html", routes.error.node);
 	app.get("/error.html", routes.error.other);
+	app.get("/monit.html", routes.monit.is_live);
 };
 
 function ajax_error_handler(err, req, res, next) {
