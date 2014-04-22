@@ -29,7 +29,7 @@ module.exports = function(grunt){
 			},
 			
 			tidy: {
-				src: [ "build/server/config.*.js", "build/scripts/simple-error-server.*.override" ]	
+				src: [ "build/**/*.dev.*", "build/**/*.staging.*", "build/**/*.prod.*" ]
 			}
     	},
         
@@ -70,24 +70,24 @@ module.exports = function(grunt){
     		override_dev: {
     			nonull: true,
     			cwd: "src",
-				src: "src/scripts/simple-error-server.dev.override",
-				dest: "build/scripts/simple-error-server.override",
+				src: "src/scripts/upstart/simple-error-server.dev.override",
+				dest: "build/scripts/upstart/simple-error-server.override",
 				mode: true
     		},
     		
     		override_staging: {
     			nonull: true,
     			cwd: "src",
-				src: "src/scripts/simple-error-server.staging.override",
-				dest: "build/scripts/simple-error-server.override",
+				src: "src/scripts/upstart/simple-error-server.staging.override",
+				dest: "build/scripts/upstart/simple-error-server.override",
 				mode: true
     		},
     		
     		override_prod: {
     			nonull: true,
     			cwd: "src",
-				src: "src/scripts/simple-error-server.prod.override",
-				dest: "build/scripts/simple-error-server.override",
+				src: "src/scripts/upstart/simple-error-server.prod.override",
+				dest: "build/scripts/upstart/simple-error-server.override",
 				mode: true
     		}
     	},
@@ -189,10 +189,10 @@ module.exports = function(grunt){
     	grunt.task.run("git-describe");
     });
 
-    grunt.registerTask("build:dev", ["clean:total", "copy:build", "copy:config_dev", "copy:override_dev", 
-         "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+    grunt.registerTask("build:dev", ["clean:total", /*"bump:build",*/ "copy:build", "copy:config_dev", 
+         "copy:override_dev", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:staging", ["clean:total", "bump:build", "copy:build", "copy:config_staging", 
          "copy:override_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
     grunt.registerTask("build:prod", ["clean:total", "bump:build", "copy:build", "copy:config_prod", 
-          "copy:override_prod", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+         "copy:override_prod", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
 };
