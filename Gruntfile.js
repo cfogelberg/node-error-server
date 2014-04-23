@@ -27,7 +27,6 @@ module.exports = function(grunt){
 			total: {
 			    src: [ "build" ]
 			},
-			
 			tidy: {
 				src: [ "build/**/*.dev.*", "build/**/*.staging.*", "build/**/*.prod.*" ]
 			}
@@ -42,7 +41,6 @@ module.exports = function(grunt){
 		        expand: true,
 		        mode: true
 	        },
-	    
     		config_dev: {
     			nonull: true,
     			cwd: "src",
@@ -50,7 +48,6 @@ module.exports = function(grunt){
 				dest: "build/server/config.js",
 				mode: true
     		},
-	    
     		config_staging: {
     			nonull: true,
     			cwd: "src",
@@ -58,7 +55,6 @@ module.exports = function(grunt){
 				dest: "build/server/config.js",
 				mode: true
     		},
-	    
     		config_prod: {
     			nonull: true,
     			cwd: "src",
@@ -66,7 +62,6 @@ module.exports = function(grunt){
 				dest: "build/server/config.js",
 				mode: true
     		},
-    		
     		override_dev: {
     			nonull: true,
     			cwd: "src",
@@ -74,7 +69,6 @@ module.exports = function(grunt){
 				dest: "build/scripts/upstart/simple-error-server.override",
 				mode: true
     		},
-    		
     		override_staging: {
     			nonull: true,
     			cwd: "src",
@@ -82,7 +76,6 @@ module.exports = function(grunt){
 				dest: "build/scripts/upstart/simple-error-server.override",
 				mode: true
     		},
-    		
     		override_prod: {
     			nonull: true,
     			cwd: "src",
@@ -175,10 +168,80 @@ module.exports = function(grunt){
     			createTag: false,
     			push: false
     		}
+    	},
+    	
+    	rsync: {
+    		options: {
+    			args: ["-p"],
+    			recursive: true
+    		},
+    		app_dev: {
+    			options: {
+	    			src: "build/*",
+	    			dest: "/var/node/simple-error-server",
+	    			host: "node@localhost"
+    			}
+    		},
+    		app_staging: {
+    			options: {
+	    			src: "build/*",
+	    			dest: "/var/node/simple-error-server",
+	    			host: "node@staginghost"
+    			}
+    		},
+    		app_prod: {
+    			options: {
+	    			src: "build/*",
+	    			dest: "/var/node/simple-error-server",
+	    			host: "node@prodhost"
+    			}
+    		},
+    		upstart_dev: {
+    			options: {
+	    			src: "build/scripts/upstart/*",
+	    			dest: "/etc/init",
+	    			host: "node@localhost"
+    			}
+    		},
+    		upstart_staging: {
+    			options: {
+	    			src: "build/scripts/upstart/*",
+	    			dest: "/etc/init",
+	    			host: "node@staginghost"
+    			}
+    		},
+    		upstart_prod: {
+    			options: {
+	    			src: "build/scripts/upstart/*",
+	    			dest: "/etc/init",
+	    			host: "node@prodhost"
+    			}
+    		},
+    		monit_dev: {
+    			options: {
+	    			src: "build/scripts/monit/*",
+	    			dest: "/etc/monit/conf.d",
+	    			host: "node@localhost"
+    			}
+    		},
+    		monit_staging: {
+    			options: {
+	    			src: "build/scripts/monit/*",
+	    			dest: "/etc/monit/conf.d",
+	    			host: "node@staginghost"
+    			}
+    		},
+    		monit_prod: {
+    			options: {
+	    			src: "build/scripts/monit/*",
+	    			dest: "/etc/monit/conf.d",
+	    			host: "node@prodhost"
+    			}
+    		}
     	}
     });
     
-    grunt.registerTask("version", function() {
+    grunt.registerTask("write_version", function() {
     	grunt.event.once("git-describe", function(rev) {
     		grunt.file.write("build/version.json", JSON.stringify({
     		    version: grunt.config("pkg.version") + (build_mode ? ":" + build_mode : ""),
@@ -190,9 +253,17 @@ module.exports = function(grunt){
     });
 
     grunt.registerTask("build:dev", ["clean:total", /*"bump:build",*/ "copy:build", "copy:config_dev", 
-         "copy:override_dev", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+         "copy:override_dev", "mkdir:logs", "usebanner", "write_version", "clean:tidy"]);
     grunt.registerTask("build:staging", ["clean:total", "bump:build", "copy:build", "copy:config_staging", 
-         "copy:override_staging", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+         "copy:override_staging", "mkdir:logs", "usebanner", "write_version", "clean:tidy"]);
     grunt.registerTask("build:prod", ["clean:total", "bump:build", "copy:build", "copy:config_prod", 
-         "copy:override_prod", "mkdir:logs", "usebanner", "version", "clean:tidy"]);
+         "copy:override_prod", "mkdir:logs", "usebanner", "write_version", "clean:tidy"]);
+    
+    grunt.registerTask("deploy:dev", ["rsync:app_dev", "rsync:upstart_dev", "rsync:monit_dev"]);
+    grunt.registerTask("deploy:staging", ["rsync:app_staging", "rsync:upstart_staging", "rsync:monit_staging"]);
+    grunt.registerTask("deploy:prod", ["rsync:app_prod", "rsync:upstart_prod", "rsync:monit_prod"]);
+
+    grunt.registerTask("build_and_deploy:dev" ["build:dev", "deploy:dev"]);
+    grunt.registerTask("build_and_deploy:staging" ["build:staging", "deploy:staging"]);
+    grunt.registerTask("build_and_deploy:prod" ["build:prod", "deploy:prod"]);
 };
