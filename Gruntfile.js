@@ -238,6 +238,36 @@ module.exports = function(grunt){
 	    			host: "node@prodhost"
     			}
     		}
+    	},
+    	
+    	sshexec: {
+			restart_dev: {
+				command: "echo restart NYI",
+				options: {
+					host: "localhost",
+					port: "22",
+					username: "node",
+					agent: process.env.SSH_AUTH_SOCK,
+				}
+			},
+			restart_staging: {
+				command: "echo restart NYI",
+				options: {
+					host: "localhost",
+					port: "22",
+					username: "node",
+					agent: process.env.SSH_AUTH_SOCK,
+				}
+			},
+			restart_prod: {
+				command: "echo restart NYI",
+				options: {
+					host: "prodhost",
+					port: "22",
+					username: "node",
+					agent: process.env.SSH_AUTH_SOCK,
+				}
+			}
     	}
     });
     
