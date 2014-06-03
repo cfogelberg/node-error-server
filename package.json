@@ -14,8 +14,9 @@
         "grunt-banner":         "0.2.x",
         "grunt-git-describe":   "2.3.x",
         "grunt-bump":           "0.0.x",
-        "grunt-rsync":          "0.5.x",
-        "grunt-ssh":            "0.11.x"
+        "grunt-set-app-mode":   "0.1.x",
+        "grunt-ssh":            "0.11.x",
+        "grunt-synchard":       "0.3.x"
     },
     "engines": { "node" : ">= 0.10" }
 }
