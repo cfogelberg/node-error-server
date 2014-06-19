@@ -1,6 +1,0 @@
-{
-	"name": "simple-error-server",
-	"version": "0.1.0",
-	"description": "A simple Node.js server for displaying rich error pages",
-    "author" : "Christo Fogelberg <cfogelberg@gmail.com>"
-}

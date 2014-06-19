@@ -7,7 +7,6 @@ module.exports = function(grunt) {
     grunt.initConfig({
         // Configuration files and variables
         pkg: grunt.file.readJSON("package.json"),
-        app_info: grunt.file.readJSON("app_info.json"),
         mode: mode,
 
         // Plugin tasks
@@ -50,10 +49,10 @@ module.exports = function(grunt) {
             js: {
                 options: {
                     banner: "/*\n" +
-                        " * <%= app_info.name %> - version <%= app_info.version %>:<%= mode %> - " +
+                        " * <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
-                        " * <%= app_info.description %>\n" +
-                        " * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" +
+                        " * <%= pkg.description %>\n" +
+                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
                         " */\n"
                 },
                 files: {
@@ -64,10 +63,10 @@ module.exports = function(grunt) {
             css: {
                 options: {
                     banner: "/*\n" +
-                        " * <%= app_info.name %> - version <%= app_info.version %>:<%= mode %> - " +
+                        " * <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
-                        " * <%= app_info.description %>\n" +
-                        " * (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" +
+                        " * <%= pkg.description %>\n" +
+                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
                         " */\n"
                 },
                 files: {
@@ -78,10 +77,10 @@ module.exports = function(grunt) {
             html: {
                 options: {
                     banner: "<!--\n" +
-                        " <%= app_info.name %> - version <%= app_info.version %>:<%= mode %> - " +
+                        " <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
-                        " <%= app_info.description %>\n" +
-                        " (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n" +
+                        " <%= pkg.description %>\n" +
+                        " (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
                         "-->\n"
                 },
                 files: {
@@ -92,10 +91,10 @@ module.exports = function(grunt) {
             sh: {
                 options: {
                     banner: "#!/bin/bash\n" +
-                        "# <%= app_info.name %> - version <%= app_info.version %>:<%= mode %> - " +
+                        "# <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
-                        "# <%= app_info.description %>\n" +
-                        "# (C) <%= grunt.template.today('yyyy') %> <%= app_info.author %>\n"
+                        "# <%= pkg.description %>\n" +
+                        "# (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n"
                 },
                 files: {
                     src: ["build/**/*.sh"]
@@ -112,11 +111,11 @@ module.exports = function(grunt) {
 
         bump: {
             options: {
-                files: ["package.json", "app_info.json", "src/client/bower.json", "src/server/package.json"],
-                updateConfigs: ["pkg", "app_info"],
+                files: ["package.json", "src/client/bower.json", "src/server/package.json"],
+                updateConfigs: ["pkg"],
                 commit: true,
                 commitMessage: "Release v%VERSION%:" + (mode ? mode : "bump-only"),
-                commitFiles: ["package.json", "app_info.json", "src/client/bower.json", "src/server/package.json"],
+                commitFiles: ["package.json", "src/client/bower.json", "src/server/package.json"],
                 createTag: false,
                 push: false
             }

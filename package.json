@@ -1,8 +1,8 @@
 {
-    "name" : "grunt-simple-error-server",
+    "name" : "simple-error-server",
     "version" : "0.1.0",
     "author" : "Christo Fogelberg <cfogelberg@gmail.com>",
-    "description" : "Packages required to build simple-error-server using grunt",
+    "description" : "A simple Node.js server for displaying rich error pages",
     "private" : true,
     "devDependencies" : {
         "grunt":                "0.4.x",
