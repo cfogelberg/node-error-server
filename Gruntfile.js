@@ -16,6 +16,16 @@ module.exports = function(grunt) {
             }
         },
 
+        jshint: {
+            all: [
+                "src/**/*.js", "!src/server/node_modules/**/*.js",
+                "!src/client/bower_components/**/*.js"
+            ],
+            options: {
+                jshintrc: ".jshintrc",
+            },
+        },
+
         // TODO: Fix grunt-contrib-copy/tasks/copy.js - mode not set and defaults to false, default it to true
         copy: {
             build: {
