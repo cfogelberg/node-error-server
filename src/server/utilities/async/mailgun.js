@@ -1,8 +1,36 @@
 var mod = require("../../mod");
 var request = require("request");
+var util = require("util");
 var L = mod("logger/index");
 var C = mod("config");
 var M = mod("models/index");
+
+
+
+function save_and_send_email(message) {
+  var email_record = new M.Email.model(message);
+  email_record.save(function(error) {
+    if(!error) {
+      var request_params = {
+        form: message,
+        auth: {
+          user: C.email.post_auth_user,
+          pass: C.email.post_auth_pass,
+          sendImmediately: false
+        }
+      };
+
+      request.post(C.email.post_url, request_params);
+      L.server.info("U.async.send - email: \"" + message.subject +
+        "\" sent to " + message.to);
+    }
+    else {
+      L.server.error(error);
+    }
+  });
+}
+
+
 
 module.exports = {
   // message: { to, from, subject, text }
@@ -29,28 +57,3 @@ module.exports = {
     }
   }
 };
-
-
-
-function save_and_send_email(message) {
-  var email_record = new M.Email.model(message);
-  email_record.save(function(error) {
-    if(!error) {
-      var request_params = {
-        form: message,
-        auth: {
-          user: C.email.post_auth_user,
-          pass: C.email.post_auth_pass,
-          sendImmediately: false
-        }
-      };
-
-      request.post(C.email.post_url, request_params);
-      L.server.info("U.async.send - email: \"" + message.subject +
-        "\" sent to " + message.to);
-    }
-    else {
-      L.server.error(error);
-    }
-  });
-}
