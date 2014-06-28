@@ -1,3 +1,3 @@
-global.mod = function(file) {
+module.exports = function(file) {
 	return require("./" + file);
 };

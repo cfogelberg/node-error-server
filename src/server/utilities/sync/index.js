@@ -1,3 +1,3 @@
-require("../../mod");
+var mod = require("../../mod");
 module.exports = {
 };
