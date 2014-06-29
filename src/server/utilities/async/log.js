@@ -1,3 +1,5 @@
+"use strict";
+
 var mod = require("../../mod");
 var L = mod("logger/index");
 var M = mod("models/index");

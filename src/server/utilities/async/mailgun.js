@@ -1,3 +1,5 @@
+"use strict";
+
 var mod = require("../../mod");
 var request = require("request");
 var util = require("util");

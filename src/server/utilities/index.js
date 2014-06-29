@@ -1,3 +1,5 @@
+"use strict";
+
 var mod = require("../mod");
 module.exports = {
 	sync: mod("utilities/sync/index"),

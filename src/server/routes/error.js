@@ -1,9 +1,10 @@
+"use strict";
+
 var mod = require("../mod");
 var path = require("path");
 var moment = require("moment");
 var U = mod("utilities/index");
 var C = mod("config");
-
 
 
 

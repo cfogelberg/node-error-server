@@ -1,3 +1,5 @@
+"use strict";
+
 var mod = require("./mod");
 var fs = require("fs");
 var express = require("express");

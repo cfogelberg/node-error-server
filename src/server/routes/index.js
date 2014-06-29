@@ -1,3 +1,5 @@
+"use strict";
+
 var mod = require("../mod");
 module.exports = {
 		error: mod("routes/error.js"),

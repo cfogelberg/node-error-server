@@ -1,6 +1,8 @@
+"use strict";
+
 var mongoose = require("mongoose");
 exports.model = mongoose.model(
-	"Email", 
+	"Email",
 	new mongoose.Schema({
 		error_type: String,
 		enqueued: Date,
@@ -9,6 +11,6 @@ exports.model = mongoose.model(
 		bcc: String,
 		subject: String,
 		text: String
-	}), 
+	}),
 	"emails"
 );

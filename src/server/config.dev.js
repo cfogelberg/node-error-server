@@ -1,4 +1,6 @@
-// Copied by build.xml for target staging to mode-obj.js
+// Copied by build.xml for target dev to mode-obj.js
+"use strict";
+
 var path = require("path");
 
 module.exports = {
