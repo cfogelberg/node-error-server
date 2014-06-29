@@ -1,7 +1,6 @@
 "use strict";
 
 var mod = require("./mod");
-var fs = require("fs");
 var express = require("express");
 var mongoose = require("mongoose");
 var http = require("http");
@@ -9,7 +8,6 @@ var path = require("path");
 var log4js = require("log4js");
 
 var L = mod("logger/index");
-var U = mod("utilities/index");
 var C = mod("config");
 var routes = mod("routes/index");
 
