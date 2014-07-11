@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function(grunt) {
     var _ = require("underscore");
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
@@ -11,8 +13,8 @@ module.exports = function(grunt) {
 
         // Plugin tasks
         clean: {
-            total: {
-                src: ["build"]
+            all: {
+                src: ["build", "test/tmp", "test/coverage", "**/*~", "**/.*~"]
             }
         },
 
@@ -24,6 +26,39 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: ".jshintrc",
             },
+        },
+
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: "spec",
+                    clearRequireCache: true,
+                    require: "test/blanket"
+                },
+                src: ["test/**/*.js"]
+            },
+            coverage_html: {
+                options: {
+                    reporter: "html-cov",
+                    quiet: true,
+                    captureFile: "test/coverage/coverage.html"
+                },
+                src: ["test/**/*.js"]
+            },
+            "mocha-lcov-reporter": {
+                options: {
+                    reporter: "mocha-lcov-reporter",
+                    quiet: true,
+                    captureFile: "test/coverage/lcov.info"
+                },
+                src: ["test/**/*.js"]
+            },
+            "travis-cov": {
+                options: {
+                    reporter: "travis-cov"
+                },
+                src: ["test/**/*.js"]
+            }
         },
 
         // TODO: Fix grunt-contrib-copy/tasks/copy.js - mode not set and defaults to false, default it to true
@@ -201,12 +236,14 @@ module.exports = function(grunt) {
         grunt.task.run("git-describe");
     });
 
-    if(mode === "dev") {
-        var build_tasks = ["clean", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
-    }
-    else {
-        var build_tasks = ["clean", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
+    grunt.registerTask("test", ["jshint", "mochaTest"]);
+
+    if (mode === "dev") {
+        var build_tasks = ["clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
+    } else {
+        var build_tasks = ["clean", "test", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
     }
     grunt.registerTask("build", build_tasks);
+
     grunt.registerTask("deploy", ["synchard:" + mode, "sshexec:" + mode]);
 };
