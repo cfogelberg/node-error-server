@@ -164,64 +164,6 @@ module.exports = function(grunt) {
                 createTag: false,
                 push: false
             }
-        },
-
-        synchard: {
-            options: {
-                mkdirp: true,
-                recursive: true
-            },
-            dev: {
-                files: [
-                    {src: "build/", dest: "node@localhost:/var/node/simple-error-server"},
-                    {src: "build/scripts/upstart/", dest: "node@localhost:/etc/init"},
-                    {src: "build/scripts/monit/", dest: "node@localhost:/etc/monit/conf.d"}
-                ]
-            },
-            staging: {
-                files: [
-                    {src: "build/", dest: "node@staginghost:/var/node/simple-error-server"},
-                    {src: "build/scripts/upstart/", dest: "node@staginghost:/etc/init"},
-                    {src: "build/scripts/monit/", dest: "node@staginghost:/etc/monit/conf.d"}
-                ]
-            },
-            prod: {
-                files: [
-                    {src: "build/", dest: "node@prodhost:/var/node/simple-error-server"},
-                    {src: "build/scripts/upstart/", dest: "node@prodhost:/etc/init"},
-                    {src: "build/scripts/monit/", dest: "node@prodhost:/etc/monit/conf.d"}
-                ]
-            }
-        },
-
-        sshexec: {
-            dev: {
-                command: "echo restart NYI",
-                options: {
-                    host: "localhost",
-                    port: "22",
-                    username: "node",
-                    agent: process.env.SSH_AUTH_SOCK,
-                }
-            },
-            staging: {
-                command: "echo restart NYI",
-                options: {
-                    host: "localhost",
-                    port: "22",
-                    username: "node",
-                    agent: process.env.SSH_AUTH_SOCK,
-                }
-            },
-            prod: {
-                command: "echo restart NYI",
-                options: {
-                    host: "prodhost",
-                    port: "22",
-                    username: "node",
-                    agent: process.env.SSH_AUTH_SOCK,
-                }
-            }
         }
     });
 
@@ -244,6 +186,4 @@ module.exports = function(grunt) {
         var build_tasks = ["clean", "test", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
     }
     grunt.registerTask("build", build_tasks);
-
-    grunt.registerTask("deploy", ["synchard:" + mode, "sshexec:" + mode]);
 };
