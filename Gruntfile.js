@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         // Plugin tasks
         clean: {
             all: {
-                src: ["build", "test/tmp", "test/coverage", "**/*~", "**/.*~"]
+                src: ["build", "test/tmp", "**/*~", "**/.*~"]
             }
         },
 
@@ -34,28 +34,6 @@ module.exports = function(grunt) {
                     reporter: "spec",
                     clearRequireCache: true,
                     require: "test/blanket"
-                },
-                src: ["test/**/*.js"]
-            },
-            coverage_html: {
-                options: {
-                    reporter: "html-cov",
-                    quiet: true,
-                    captureFile: "test/coverage/coverage.html"
-                },
-                src: ["test/**/*.js"]
-            },
-            "mocha-lcov-reporter": {
-                options: {
-                    reporter: "mocha-lcov-reporter",
-                    quiet: true,
-                    captureFile: "test/coverage/lcov.info"
-                },
-                src: ["test/**/*.js"]
-            },
-            "travis-cov": {
-                options: {
-                    reporter: "travis-cov"
                 },
                 src: ["test/**/*.js"]
             }

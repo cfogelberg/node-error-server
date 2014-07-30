@@ -19,11 +19,6 @@
     "type": "MIT",
     "url": "https://github.com/cfogelberg/simple-error-server/blob/master/LICENSE-MIT"
   }],
-  "config": {
-    "travis-cov": {
-      "threshold": 90
-    }
-  },
   "devDependencies": {
     "blanket": "^1.1.6",
     "grunt": "^0.4",
