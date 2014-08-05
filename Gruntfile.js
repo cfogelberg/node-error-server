@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     var _ = require("underscore");
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
 
-    var mode = grunt.option("mode") || "dev";
+    var mode = grunt.option("mode") || grunt.option("mode", "dev"); // default to dev
 
     grunt.initConfig({
         // Configuration files and variables
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
             build: {
                 cwd: "src",
                 src: ["**"],
-                dest: "build",
+                dest: "build/out",
                 expand: true,
                 mode: true
             }
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
                 expected_modes: ["dev", "staging", "prod"],
                 files: [{
                     src: "src/server/config.{{MODE}}.js",
-                    dest: "build/server"
+                    dest: "build/out/server"
                 }]
             }
         },
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
         mkdir: {
             logs: {
                 options: {
-                    create: ["build/server/logs"]
+                    create: ["build/out/server/logs"]
                 }
             }
         },
@@ -142,12 +142,28 @@ module.exports = function(grunt) {
                 createTag: false,
                 push: false
             }
+        },
+
+        compress: {
+            main: {
+                options: {
+                    archive: "build/dist/ses-<%= pkg.version %>-<%= mode %>.tar.gz",
+                    mode: "tgz",
+                    pretty: true
+                },
+                files: [{
+                    cwd: "build/out",
+                    expand: true,
+                    src: ["**"],
+                    dest: "dist/"
+                }]
+            }
         }
     });
 
     grunt.registerTask("write_ver", function() {
         grunt.event.once("git-describe", function(rev) {
-            grunt.file.write("build/version.json", JSON.stringify({
+            grunt.file.write("build/out/version.json", JSON.stringify({
                 version: grunt.config("pkg.version") + (mode ? ":" + mode : ""),
                 revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
                 date: grunt.template.today()
@@ -159,9 +175,14 @@ module.exports = function(grunt) {
     grunt.registerTask("test", ["jshint", "mochaTest"]);
 
     if (mode === "dev") {
-        var build_tasks = ["clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
+        var build_tasks = [
+            "clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver", "compress"
+        ];
     } else {
-        var build_tasks = ["clean", "test", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver"];
+        var build_tasks = [
+            "clean", "test", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver",
+            "compress"
+        ];
     }
     grunt.registerTask("build", build_tasks);
 };

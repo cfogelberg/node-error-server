@@ -25,6 +25,7 @@
     "matchdep": "^0.3",
     "underscore": "^1.6",
     "grunt-contrib-clean": "^0.5",
+    "grunt-contrib-compress": "^0.10",
     "grunt-contrib-copy": "^0.5",
     "grunt-contrib-jshint": "^0.10",
     "grunt-coveralls": "^0.3",
