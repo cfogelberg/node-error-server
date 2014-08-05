@@ -35,7 +35,7 @@ module.exports = function(grunt) {
                     clearRequireCache: true,
                     require: "test/blanket"
                 },
-                src: ["test/**/*.js"]
+                src: ["test/**/*.js", "!test/blanket.js"]
             }
         },
 
