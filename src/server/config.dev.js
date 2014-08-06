@@ -1,4 +1,3 @@
-// Copied by build.xml for target dev to mode-obj.js
 "use strict";
 
 var path = require("path");
@@ -18,7 +17,7 @@ module.exports = {
     to: "engineering@yourdomain.com",
     bcc: "needs-to-know@yourdomain.com",
     gap: undefined,
-    post_url: "https://api.mailgun.net/v2/api.lettingvetting.com/messages",
+    post_url: "https://api.mailgun.net/v2/yourdomain.com/messages",
     post_auth_user: "username",
     post_auth_pass: "password"
   }
