@@ -75,7 +75,7 @@ module.exports = function(grunt) {
                         " * <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
                         " * <%= pkg.description %>\n" +
-                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
+                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
                         " */\n"
                 },
                 files: {
@@ -89,7 +89,7 @@ module.exports = function(grunt) {
                         " * <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
                         " * <%= pkg.description %>\n" +
-                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
+                        " * (C) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
                         " */\n"
                 },
                 files: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
                         " <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
                         " <%= pkg.description %>\n" +
-                        " (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
+                        " (C) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n" +
                         "-->\n"
                 },
                 files: {
@@ -117,7 +117,7 @@ module.exports = function(grunt) {
                         "# <%= pkg.name %> - version <%= pkg.version %>:<%= mode %> - " +
                         "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
                         "# <%= pkg.description %>\n" +
-                        "# (C) <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n"
+                        "# (C) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n"
                 },
                 files: {
                     src: ["build/**/*.sh"]
