@@ -155,7 +155,7 @@ module.exports = function(grunt) {
                     cwd: "build/out",
                     expand: true,
                     src: ["**"],
-                    dest: "dist/"
+                    dest: "ses/"
                 }]
             }
         }
