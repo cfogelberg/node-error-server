@@ -8,14 +8,14 @@ Node server fails. Error information can be saved to a database for diagnosis. M
 for email notification of server errors is included, but requires a Mailgun or Rackspace account.
 
 I have also used this web app as a best practices learning exercise for developing, building and
-deploying web apps. All feedback, suggestions and questions are welcome, `cfogelberg@gmail.com`
-is the best email to reach me on.
+deploying web apps. All feedback, suggestions and questions are welcome,
+[cfogelberg@gmail.com](mailto:cfogelberg@gmail.com) is the best email to reach me on.
 
 ## Bumping and building SES
 
 Build and version bump SES using Grunt. A deployable archive is created in the `build/dist`
-directory by the `build` task. To automatically and consistently update version numbers use the
-`bump` tasks.
+directory by the build task. To automatically and consistently update version numbers use the
+bump tasks.
 
 Command                    | Notes
 ---------------------------|------------------------------------------------------------------------
@@ -31,12 +31,12 @@ grunt build --mode=prod    | Builds application with run mode configuration "dev
 
 ## Deploying SES
 
-SES requires Node >= 0.10.0, PM2 >= 0.8.1 and mongodb >= 2.4.10. Optionally, you can also use monit
+SES requires Node >= 0.10.0, pm2 >= 0.9.6 and mongodb >= 2.4.10. Optionally, you can also use monit
 for system-level monitoring of a running SES server.
 
 ### SES configuration and run modes
 
-PM2 configuration is specified in the file `scripts/simple-error-server.json`.
+pm2 configuration is specified in the file `scripts/simple-error-server.json`.
 
 To help ensure that only the production-configured code is run in a production environment, and
 likewise for other run modes, SES uses the `grunt-set-app-mode` plugin to include the correct
@@ -55,19 +55,17 @@ for your system.
 
 ## Running SES
 
-SES is run using PM2. To start the server, change to the `server` directory and run
+SES is run using pm2. To start the server, `cd server` and run
 `pm2 start ../scripts/pm2/simple-error-server.json`.
 
-To configure SES to run automatically on startup, first start the server, then execute `pm2 startup
-ubuntu && pm2 save`. This feature is relatively new to PM2 so reboot the server to test it works
-before depending on it.
-
-See the PM2 documentation for other useful commands.
+See the pm2 [documentation](https://github.com/Unitech/pm2#table-of-contents) for other useful
+commands.
 
 ## Contributing to SES
 
 Contributions to SES are very welcome. For version control, SES uses uses a simplified version of
-the gitflow model - see http://nvie.com/posts/a-successful-git-branching- model/ for details.
+the gitflow model - see [here](http://nvie.com/posts/a-successful-git-branching-model/) for
+details.
 
 ## Changelog
 
