@@ -1,3 +1,4 @@
-require("../../mod");
+"use strict";
+
 module.exports = {
 };

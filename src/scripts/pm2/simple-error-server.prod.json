@@ -1,0 +1,7 @@
+{
+  "script":           "server.js",
+  "name":             "simple-error-server",
+  "watch":            true,
+  "exec_mode":        "cluster_mode",
+  "args":             "[\"prod\"]"
+}

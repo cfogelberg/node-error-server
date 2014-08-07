@@ -1,4 +1,6 @@
-require("../../mod");
+"use strict";
+
+var mod = require("../../mod");
 
 var events = require("events");
 var async_event_aggregator = new events.EventEmitter();

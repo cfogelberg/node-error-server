@@ -1,3 +1,5 @@
-global.mod = function(file) {
-	return require("./" + file);
+"use strict";
+
+module.exports = function(file) {
+  return require("./" + file);
 };
