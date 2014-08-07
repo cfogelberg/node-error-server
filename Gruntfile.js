@@ -140,7 +140,7 @@ module.exports = function(grunt) {
                 files: ["package.json", "src/client/bower.json", "src/server/package.json"],
                 updateConfigs: ["pkg"],
                 commit: true,
-                commitMessage: "Release v%VERSION%:" + (mode ? mode : "bump-only"),
+                commitMessage: "Release v%VERSION%",
                 commitFiles: ["package.json", "src/client/bower.json", "src/server/package.json"],
                 createTag: false,
                 push: false
