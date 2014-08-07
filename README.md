@@ -70,6 +70,7 @@ details.
 ## Changelog
 
 v0.1.0 - initial release, MVP
+v1.0.0 - updated build, deployment and run; JSHint; Monit
 
 ## License
 
