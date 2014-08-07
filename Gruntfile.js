@@ -56,6 +56,9 @@ module.exports = function(grunt) {
                 files: [{
                     src: "src/server/config.{{MODE}}.js",
                     dest: "build/out/server"
+                }, {
+                    src: "src/scripts/pm2/simple-error-server.{{MODE}}.json",
+                    dest: "build/out/scripts/pm2"
                 }]
             }
         },

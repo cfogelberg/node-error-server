@@ -41,7 +41,8 @@ PM2 configuration is specified in the file `scripts/simple-error-server.json`.
 To help ensure that only the production-configured code is run in a production environment, and
 likewise for other run modes, SES uses the `grunt-set-app-mode` plugin to include the correct
 runtime configuration file. This file specifies database log and email configuration and also the
-server portIt is specified for each run mode in the `server/config.*.js` files. To listen on a port
+server portIt is specified for each run mode in the `server/config.*.js` files. On server start the
+expected run mode must be specified and this is checked against the config file. To listen on a port
 less than 1024 either run the server as root (a bad idea) or use iptables to redirect.
 
 ### Installation
