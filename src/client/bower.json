@@ -1,6 +1,6 @@
 {
   "name": "simple-error-client",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "dependencies": {
       "bootstrap": "3.1.x"
   }
