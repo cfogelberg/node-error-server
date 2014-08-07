@@ -63,7 +63,7 @@ function configure_express_routes(app) {
 
 function configure_express_object(app) {
   if(app.get("env") !== C.mode_name) {
-    throw new Error("Server command line environment ('" + app.get("env") +
+    throw new Error("Server command line run mode ('" + app.get("env") +
         "') does not match installed mode ('" + C.mode_name + "')");
   }
   L.configure();
