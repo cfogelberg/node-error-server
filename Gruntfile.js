@@ -173,16 +173,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask("test", ["jshint", "mochaTest"]);
-
-    if (mode === "dev") {
-        var build_tasks = [
-            "clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver", "compress"
-        ];
-    } else {
-        var build_tasks = [
-            "clean", "test", "bump", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver",
-            "compress"
-        ];
-    }
-    grunt.registerTask("build", build_tasks);
+    grunt.registerTask("build", [
+        "clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver", "compress"
+    ]);
 };
