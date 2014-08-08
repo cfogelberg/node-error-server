@@ -1,6 +1,5 @@
 *~
 .~lock*
-node_modules
 bower_components
 .project
 .settings
