@@ -8,21 +8,6 @@ var C = mod("config");
 
 
 
-function build_email_object(options) {
-  return {
-    enqueued: new Date(),
-    error_type: options.error_type,
-    to: C.email.to,
-    from: C.email.from,
-    bcc: C.email.bcc,
-    subject: "Error server URL accessed: " + options.error_type,
-    text: "Error server URL (" + options.error_type + ") accessed at " +
-      moment(new Date()).format("HH:MM:ss DD/MM/YYYY")
-  };
-}
-
-
-
 module.exports = {
   database: function(req, res, next) {
     var error_type = "database";
@@ -64,3 +49,18 @@ module.exports = {
     res.sendfile(path.join(C.client_root, "unknown.html"));
   }
 };
+
+
+
+function build_email_object(options) {
+  return {
+    enqueued: new Date(),
+    error_type: options.error_type,
+    to: C.email.to,
+    from: C.email.from,
+    bcc: C.email.bcc,
+    subject: "Error server URL accessed: " + options.error_type,
+    text: "Error server URL (" + options.error_type + ") accessed at " +
+      moment(new Date()).format("HH:MM:ss DD/MM/YYYY")
+  };
+}
