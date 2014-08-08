@@ -11,6 +11,20 @@ I have also used this web app as a best practices learning exercise for developi
 deploying web apps. All feedback, suggestions and questions are welcome,
 [cfogelberg@gmail.com](mailto:cfogelberg@gmail.com) is the best email to reach me on.
 
+## Using SES
+
+By default, SES supports three error routes:
+
+- /dberror.html ("Oh snap! The database server has encountered an error.")
+- /servererror.html ("Oh snap! The server has encountered an error.")
+- /error.html ("Oh snap! There has been an error.")
+
+For each of these routes the server will save a log message and send an email. A request to
+/monit.html will generate a 200 response for monitoring purposes but no log message or email. Any
+other route will generate an "unknown error", which will also generate a log message and email. The
+client code could be extended easily to use AJAX to send other information from the visitor which
+might be useful for diagnostics, e.g. resolution.
+
 ## Bumping and building SES
 
 Build and version bump SES using Grunt. A deployable archive is created in the `build/dist`
