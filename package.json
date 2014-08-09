@@ -38,7 +38,8 @@
     "grunt-ssh": "^0.11",
     "grunt-synchard": "^0.3",
     "mocha-lcov-reporter": "^0.0.1",
-    "should": "^3.3.1",
+    "should": "^3.3",
+    "sinon": "^1.10",
     "travis-cov": "^0.2.5"
   },
     "engines": {
