@@ -178,7 +178,8 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: "build/dist/ses-<%= pkg.version %>-<%= mode %>.tar.gz",
+                    archive: "build/dist/ses-<%= pkg.version %>-<%= mode %>-" +
+                        "<%= grunt.template.today('yyyymmdd-HHMM') %>.tar.gz",
                     mode: "tgz",
                     pretty: true
                 },
