@@ -1,9 +1,9 @@
 *~
 .~lock*
-node_modules
 bower_components
 .project
 .settings
 build
+test/out
 *.sublime-workspace
 

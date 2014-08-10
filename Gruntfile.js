@@ -14,13 +14,14 @@ module.exports = function(grunt) {
         // Plugin tasks
         clean: {
             all: {
-                src: ["build", "test/tmp", "**/*~", "**/.*~"]
+                src: ["build", "test/out", "test/tmp", "**/*~", "**/.*~"]
             }
         },
 
         jshint: {
             all: [
-                "src/**/*.js", "!src/server/node_modules/**/*.js",
+                "src/**/*.js",
+                "!src/server/node_modules/**/*.js",
                 "!src/client/bower_components/**/*.js"
             ],
             options: {
@@ -35,7 +36,12 @@ module.exports = function(grunt) {
                     clearRequireCache: true,
                     require: "test/blanket"
                 },
-                src: ["test/**/*.js", "!test/blanket.js"]
+                src: [
+                    "test/**/*.js",
+                    "!test/blanket.js",
+                    "!test/out/server/node_modules/**/*.js",
+                    "!test/out/client/bower_components/**/*.js"
+                ]
             }
         },
 
@@ -47,11 +53,18 @@ module.exports = function(grunt) {
                 dest: "build/out",
                 expand: true,
                 mode: true
+            },
+            test: {
+                cwd: "src",
+                src: ["**"],
+                dest: "test/out",
+                expand: true,
+                mode: true
             }
         },
 
         set_app_mode: {
-            config: {
+            build: {
                 expected_modes: ["dev", "staging", "prod"],
                 files: [{
                     src: "src/server/config.{{MODE}}.js",
@@ -60,13 +73,28 @@ module.exports = function(grunt) {
                     src: "src/scripts/pm2/simple-error-server.{{MODE}}.json",
                     dest: "build/out/scripts/pm2"
                 }]
+            },
+            test: {
+                expected_modes: ["dev", "staging", "prod"],
+                files: [{
+                    src: "src/server/config.{{MODE}}.js",
+                    dest: "test/out/server"
+                }, {
+                    src: "src/scripts/pm2/simple-error-server.{{MODE}}.json",
+                    dest: "test/out/scripts/pm2"
+                }]
             }
         },
 
         mkdir: {
-            logs: {
+            build: {
                 options: {
                     create: ["build/out/server/logs"]
+                }
+            },
+            test: {
+                options: {
+                    create: ["test/out/server/logs"]
                 }
             }
         },
@@ -82,7 +110,7 @@ module.exports = function(grunt) {
                         " */\n"
                 },
                 files: {
-                    src: ["build/**/*.js"]
+                    src: ["build/out/**/*.js", "test/out/**/*.js"]
                 }
             },
 
@@ -96,7 +124,7 @@ module.exports = function(grunt) {
                         " */\n"
                 },
                 files: {
-                    src: ["build/**/*.css"]
+                    src: ["build/out/**/*.css", "test/out/**/*.css"]
                 }
             },
 
@@ -110,7 +138,7 @@ module.exports = function(grunt) {
                         "-->\n"
                 },
                 files: {
-                    src: ["build/**/*.html"]
+                    src: ["build/out/**/*.html", "test/out/**/*.html"]
                 }
             },
 
@@ -123,7 +151,7 @@ module.exports = function(grunt) {
                         "# (C) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %>\n"
                 },
                 files: {
-                    src: ["build/**/*.sh"]
+                    src: ["build/out/**/*.sh", "test/out/**/*.sh"]
                 }
             }
         },
@@ -150,7 +178,8 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: "build/dist/ses-<%= pkg.version %>-<%= mode %>.tar.gz",
+                    archive: "build/dist/ses-<%= pkg.version %>-<%= mode %>-" +
+                        "<%= grunt.template.today('yyyymmdd-HHMM') %>.tar.gz",
                     mode: "tgz",
                     pretty: true
                 },
@@ -171,12 +200,19 @@ module.exports = function(grunt) {
                 revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
                 date: grunt.template.today()
             }));
+            grunt.file.write("test/out/version.json", JSON.stringify({
+                version: grunt.config("pkg.version") + (mode ? ":" + mode : ""),
+                revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
+                date: grunt.template.today()
+            }));
         });
         grunt.task.run("git-describe");
     });
 
+    grunt.registerTask("assemble", ["copy", "set_app_mode", "mkdir", "usebanner", "write_ver"]);
     grunt.registerTask("test", ["jshint", "mochaTest"]);
-    grunt.registerTask("build", [
-        "clean", "test", "copy", "set_app_mode", "mkdir", "usebanner", "write_ver", "compress"
-    ]);
+    grunt.registerTask("build", ["clean", "assemble", "compress", "test"]);
+    grunt.registerTask("test_build", ["clean", "copy:test", "set_app_mode:test", "mkdir:test", "test"]);
+
+    grunt.registerTask("broken_build", ["clean", "assemble", "test", "compress"])
 };

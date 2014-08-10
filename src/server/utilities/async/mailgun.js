@@ -9,31 +9,6 @@ var M = mod("models/index");
 
 
 
-function save_and_send_email(message) {
-  var email_record = new M.Email.model(message);
-  email_record.save(function(error) {
-    if(!error) {
-      var request_params = {
-        form: message,
-        auth: {
-          user: C.email.post_auth_user,
-          pass: C.email.post_auth_pass,
-          sendImmediately: false
-        }
-      };
-
-      request.post(C.email.post_url, request_params);
-      L.server.info("U.async.send - email: \"" + message.subject +
-        "\" sent to " + message.to);
-    }
-    else {
-      L.server.error(error);
-    }
-  });
-}
-
-
-
 module.exports = {
   // message: { to, from, subject, text }
   send: function(message) {
@@ -59,3 +34,28 @@ module.exports = {
     }
   }
 };
+
+
+
+function save_and_send_email(message) {
+  var email_record = new M.Email.model(message);
+  email_record.save(function(error) {
+    if(!error) {
+      var request_params = {
+        form: message,
+        auth: {
+          user: C.email.post_auth_user,
+          pass: C.email.post_auth_pass,
+          sendImmediately: false
+        }
+      };
+
+      request.post(C.email.post_url, request_params);
+      L.server.info("U.async.send - email: \"" + message.subject +
+        "\" sent to " + message.to);
+    }
+    else {
+      L.server.error(error);
+    }
+  });
+}
