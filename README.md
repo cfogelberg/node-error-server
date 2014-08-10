@@ -25,23 +25,26 @@ other route will generate an "unknown error", which will also generate a log mes
 client code could be extended easily to use AJAX to send other information from the visitor which
 might be useful for diagnostics, e.g. resolution.
 
-## Bumping and building SES
+## Bumping, building and testing SES
 
 Build and version bump SES using Grunt. A deployable archive is created in the `build/dist`
-directory by the build task. To automatically and consistently update version numbers use the
-bump tasks.
+directory by the build task. To automatically and consistently update version numbers use the bump
+tasks. Because SES uses grunt-set-app-mode the application must be built before the tests can be
+run. To build just for tests and then test, use `grunt test_build`.
 
-Command                    | Notes
----------------------------|------------------------------------------------------------------------
-grunt clean                | Removes the `build` directory
-grunt test                 | Runs jshint and mocha tests
-grunt bump:patch           | Increments patch version and commits updated files
-grunt bump:minor           | Increments minor version and commits updated files
-grunt bump:major           | Increments major version and commits updated files
-grunt build                | Builds application with run mode configuration "development"
-grunt build --mode=dev     | Ditto
-grunt build --mode=staging | Builds application with run mode configuration "development"
-grunt build --mode=prod    | Builds application with run mode configuration "development"
+Command                     | Notes
+----------------------------|---------------------------------------------------------------------
+grunt clean                 | Removes the `build` directory
+grunt test                  | Runs jshint and mocha tests
+grunt bump:patch            | Increments patch version and commits updated files
+grunt bump:minor            | Increments minor version and commits updated files
+grunt bump:major            | Increments major version and commits updated files
+grunt build                 | Builds application with run mode configuration "development"
+grunt build --mode=dev      | Ditto
+grunt build --mode=staging  | Builds application with run mode configuration "development"
+grunt build --mode=prod     | Builds application with run mode configuration "development"
+grunt test_build --mode=... | Builds application just for tests with specified run mode
+grunt test                  | Executes tests
 
 ## Deploying SES
 
@@ -53,7 +56,7 @@ for system-level monitoring of a running SES server.
 pm2 configuration is specified in the file `scripts/simple-error-server.json`.
 
 To help ensure that only the production-configured code is run in a production environment, and
-likewise for other run modes, SES uses the `grunt-set-app-mode` plugin to include the correct
+likewise for other run modes, SES uses the grunt-set-app-mode plugin to include the correct
 runtime configuration file. This file specifies database log and email configuration and also the
 server portIt is specified for each run mode in the `server/config.*.js` files. On server start the
 expected run mode must be specified and this is checked against the config file. To listen on a port
