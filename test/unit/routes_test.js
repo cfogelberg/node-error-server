@@ -7,7 +7,7 @@ describe("routes", function() {
   var routes = mod("routes/index.js");
   var U = mod("utilities/index");
 
-  describe("error", function() {
+  describe("routes.error", function() {
     var req = {};
     var res = {};
     var next;
@@ -45,24 +45,42 @@ describe("routes", function() {
       res.statusCode.should.equal(500);
     });
 
-    it.skip("responds appropriately to an other error message notification", function() {
-      // Check U.async.emit called with log:save
-      // Check U.async.emit called with mailgun:send
-      // Check res.sendfile was called
-      // Check res.statuscode = 500
+    it("responds appropriately to an other error message notification", function() {
+      routes.error.other(req, res, next);
+      U.async.emit.calledWith("log:save").should.be.true;
+      U.async.emit.calledWith("mailgun:send").should.be.true;
+      U.async.emit.calledTwice;
+      res.sendfile.calledOnce;
+      res.statusCode.should.equal(500);
     });
 
-    it.skip("responds appropriately to an unknown error notification", function() {
-      // Check U.async.emit called with log:save
-      // Check U.async.emit called with mailgun:send
-      // Check res.sendfile was called
-      // Check res.statuscode = 500
+    it("responds appropriately to an unknown error notification", function() {
+      routes.error.unknown(req, res, next);
+      U.async.emit.calledWith("log:save").should.be.true;
+      U.async.emit.calledWith("mailgun:send").should.be.true;
+      U.async.emit.calledTwice;
+      res.sendfile.calledOnce;
+      res.statusCode.should.equal(500);
     });
   });
 
-  describe("monit", function() {
-    it.skip("some monit test goes here", function() {
+  describe("routes.monit", function() {
+    var req = {};
+    var res = {};
+    var next;
 
+    beforeEach(function() {
+      req = {};
+      res = {
+        end: sinon.spy()
+      };
+      next = sinon.spy();
+    });
+
+    it("is_live sets status code and sends response 'alive'", function() {
+      routes.monit.is_live(req, res, next);
+      res.end.calledWith("alive");
+      res.statusCode.should.equal(200);
     });
   });
 });
