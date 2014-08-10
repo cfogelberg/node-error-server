@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         },
 
         set_app_mode: {
-            config: {
+            build: {
                 expected_modes: ["dev", "staging", "prod"],
                 files: [{
                     src: "src/server/config.{{MODE}}.js",
@@ -72,7 +72,11 @@ module.exports = function(grunt) {
                 }, {
                     src: "src/scripts/pm2/simple-error-server.{{MODE}}.json",
                     dest: "build/out/scripts/pm2"
-                }, {
+                }]
+            },
+            test: {
+                expected_modes: ["dev", "staging", "prod"],
+                files: [{
                     src: "src/server/config.{{MODE}}.js",
                     dest: "test/out/server"
                 }, {
@@ -83,9 +87,14 @@ module.exports = function(grunt) {
         },
 
         mkdir: {
-            logs: {
+            build: {
                 options: {
-                    create: ["build/out/server/logs", "test/out/server/logs"]
+                    create: ["build/out/server/logs"]
+                }
+            },
+            test: {
+                options: {
+                    create: ["test/out/server/logs"]
                 }
             }
         },
@@ -201,5 +210,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask("assemble", ["copy", "set_app_mode", "mkdir", "usebanner", "write_ver"]);
     grunt.registerTask("test", ["jshint", "mochaTest"]);
-    grunt.registerTask("build", ["clean", "assemble", "test", "compress"]);
+    grunt.registerTask("build", ["clean", "assemble", "compress", "test"]);
+    grunt.registerTask("test_build", ["clean", "copy:test", "set_app_mode:test", "mkdir:test", "test"]);
+
+    grunt.registerTask("broken_build", ["clean", "assemble", "test", "compress"])
 };
