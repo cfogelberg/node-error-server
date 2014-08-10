@@ -1,12 +1,12 @@
 "use strict";
 
-describe("routes", function() {
-  var should = require("should");
-  var sinon = require("sinon");
-  var mod = require("../out/server/mod");
-  var routes = mod("routes/index.js");
-  var U = mod("utilities/index");
+var should = require("should");
+var sinon = require("sinon");
+var mod = require("../out/server/mod");
+var routes = mod("routes/index");
+var U = mod("utilities/index");
 
+describe("routes", function() {
   describe("routes.error", function() {
     var req = {};
     var res = {};
