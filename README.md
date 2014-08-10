@@ -84,6 +84,11 @@ Contributions to SES are very welcome. For version control, SES uses uses a simp
 the gitflow model - see [here](http://nvie.com/posts/a-successful-git-branching-model/) for
 details.
 
+### Issues
+
+1. Running grunt task compress after mochaTest in the same grunt run causes mochaTest to fail during
+compress, grunt task broken_build illustrates this problem
+
 ## Changelog
 
 v0.1.0 - initial release, MVP
