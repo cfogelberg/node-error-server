@@ -93,6 +93,7 @@ compress, grunt task broken_build illustrates this problem
 
 v0.1.0 - initial release, MVP
 v1.0.0 - updated build, deployment and run; JSHint; Monit
+v1.0.1 - some tests, usage instructions
 
 ## License
 
