@@ -58,7 +58,7 @@ function configure_express_object(app) {
 }
 
 function configure_express_middleware(app) {
-  app.use(express.favicon(path.join(C.client_root, "favicon.ico")));
+  app.use(express.favicon(path.join(C.client_root, "assets", "images", "favicons", "favicon.ico")));
   app.use(express.compress());
   app.use(log4js.connectLogger(L.express, { level: "auto", format: C.express_logger_format }));
   // TODO express.limit (connect.limit) is being removed in connect 3.0.0 - consider using https://github.com/stream-utils/raw-body
