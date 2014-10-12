@@ -190,26 +190,20 @@ module.exports = function(grunt) {
                     dest: "ses/"
                 }]
             }
+        },
+
+        version_file: {
+            main: {
+                options: {
+                    out: "build/out/version.json",
+                    generator_list: ["datestring", "npm_version", "git_describe"],
+                    generator_dir: "generators"
+                }
+            }
         }
     });
 
-    grunt.registerTask("write_ver", function() {
-        grunt.event.once("git-describe", function(rev) {
-            grunt.file.write("build/out/version.json", JSON.stringify({
-                version: grunt.config("pkg.version") + (mode ? ":" + mode : ""),
-                revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
-                date: grunt.template.today()
-            }));
-            grunt.file.write("test/out/version.json", JSON.stringify({
-                version: grunt.config("pkg.version") + (mode ? ":" + mode : ""),
-                revision: rev.object + (rev.dirty ? rev.dirty : "-clean") + (rev.tag ? "---" + rev.tag : ""),
-                date: grunt.template.today()
-            }));
-        });
-        grunt.task.run("git-describe");
-    });
-
-    grunt.registerTask("assemble", ["copy", "set_app_mode", "mkdir", "usebanner", "write_ver"]);
+    grunt.registerTask("assemble", ["copy", "set_app_mode", "mkdir", "usebanner", "version_file"]);
     grunt.registerTask("test", ["jshint", "mochaTest"]);
     grunt.registerTask("build", ["clean", "assemble", "compress", "test"]);
     grunt.registerTask("test_build", ["clean", "copy:test", "set_app_mode:test", "mkdir:test", "test"]);
