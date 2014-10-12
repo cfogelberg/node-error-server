@@ -62,6 +62,8 @@ server portIt is specified for each run mode in the `server/config.*.js` files. 
 expected run mode must be specified and this is checked against the config file. To listen on a port
 less than 1024 either run the server as root (a bad idea) or use iptables to redirect.
 
+Monit configuration is specified in `scripts/monit/simple-error-server.monit`.
+
 ### Installation
 
 Uncompress `build/dist/ses-*.tar.gz` to the desired location
@@ -94,6 +96,7 @@ compress, grunt task broken_build illustrates this problem
 v0.1.0 - initial release, MVP
 v1.0.0 - updated build, deployment and run; JSHint; Monit
 v1.0.1 - some tests, usage instructions
+v1.0.2 - use grunt-version-file for code provenance information
 
 ## License
 
