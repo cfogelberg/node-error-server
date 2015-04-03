@@ -2,6 +2,7 @@
   "name": "simple-error-client",
   "version": "1.0.2",
   "dependencies": {
-      "bootstrap": "3.1.x"
+      "bootstrap": "^3.1",
+      "jquery": "^2.1"
   }
 }
